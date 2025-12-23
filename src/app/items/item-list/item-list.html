@@ -1,0 +1,80 @@
+<div class="container">
+  <div class="header">
+    <h1> Items Master</h1>
+   <button class="btn-add" (click)="onAddItem()">+ Add New Item</button>
+  </div>
+
+  <div class="search-section">
+    <input 
+      type="text" 
+      class="search-input"
+      placeholder=" Search by code or name..." 
+      [(ngModel)]="searchQuery"
+      (input)="onSearch()">
+  </div>
+
+  <div class="stats-cards">
+    <div class="stat-card">
+      <h3>Total Items</h3>
+      <p class="stat-number">{{ items.length }}</p>
+    </div>
+    <div class="stat-card active">
+      <h3>Active</h3>
+      <p class="stat-number">{{ getActive_Count() }}</p>
+    </div>
+    <div class="stat-card warning">
+      <h3>Low Stock</h3>
+      <p class="stat-number">{{ getLowStock_Count() }}</p>
+    </div>
+    <div class="stat-card critical">
+      <h3>Critical</h3>
+      <p class="stat-number">{{ getCritical_Count() }}</p>
+    </div>
+  </div>
+
+  <div class="table-container">
+    <table>
+      <thead>
+        <tr>
+          <th>Item Code</th>
+          <th>Item Name</th>
+          <th>Category</th>
+          <th>Quantity</th>
+          <th>Reorder Level</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of filteredItems">
+          <td><strong>{{ item.itemCode }}</strong></td>
+          <td>{{ item.itemName }}</td>
+          <td>{{ item.category }}</td>
+          <td>{{ item.quantityAvailable }}</td>
+          <td>{{ item.reorderLevel }}</td>
+          <td>
+            <span class="badge" [ngClass]="{
+              'badge-active': item.itemStatus === 'Active',
+              'badge-warning': item.quantityAvailable <= item.reorderLevel && item.quantityAvailable > 0,
+              'badge-critical': item.quantityAvailable === 0
+             
+            }">
+              {{ item.itemStatus }}
+            </span>
+          </td>
+          <td class="actions">
+            <button class="btn-icon edit" (click)="onEditClick(item)" title="Edit">Edit</button>
+            <button class="btn-icon delete" (click)="onDelete(item)" title="Delete">Delete</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<app-item-form 
+  *ngIf="showForm"
+  [itemToEdit]="selectedItem"
+  (itemCreated)="onItemCreated($event)"
+  (itemUpdated)="onItemUpdated($event)"
+  (cancelled)="onFormCancel()">
+</app-item-form>

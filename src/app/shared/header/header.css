@@ -1,0 +1,64 @@
+.app-header {
+  background: white;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.header-content {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 30px 20px 20px 20px;
+  text-align: center;
+}
+
+.title-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.app-title {
+  color: #2c3e50;
+  font-size: 36px;
+  font-weight: 700;
+  margin: 0;
+  letter-spacing: -0.5px;
+}
+
+.subtitle {
+  color: #7f8c8d;
+  font-size: 16px;
+  margin: 8px 0 0 0;
+  font-weight: 400;
+}
+
+.nav-tabs {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  gap: 0;
+  background: #0066cc;
+  border-radius: 8px 8px 0 0;
+  padding: 0 20px;
+}
+
+.tab-btn {
+  background: transparent;
+  border: none;
+  color: white;
+  padding: 15px 30px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+  border-radius: 8px 8px 0 0;
+  margin-right: 5px;
+}
+
+.tab-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.tab-btn.active {
+  background: white;
+  color: #0066cc;
+}
