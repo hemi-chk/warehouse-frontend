@@ -33,43 +33,50 @@
   </div>
 
   <div class="table-container">
-    <table>
-      <thead>
-        <tr>
-          <th>Item Code</th>
-          <th>Item Name</th>
-          <th>Category</th>
-          <th>Quantity</th>
-          <th>Reorder Level</th>
-          <th>Status</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let item of filteredItems">
-          <td><strong>{{ item.itemCode }}</strong></td>
-          <td>{{ item.itemName }}</td>
-          <td>{{ item.category }}</td>
-          <td>{{ item.quantityAvailable }}</td>
-          <td>{{ item.reorderLevel }}</td>
-          <td>
-            <span class="badge" [ngClass]="{
-              'badge-active': item.itemStatus === 'Active',
-              'badge-warning': item.quantityAvailable <= item.reorderLevel && item.quantityAvailable > 0,
-              'badge-critical': item.quantityAvailable === 0
-             
-            }">
-              {{ item.itemStatus }}
-            </span>
-          </td>
-          <td class="actions">
-            <button class="btn-icon edit" (click)="onEditClick(item)" title="Edit">Edit</button>
-            <button class="btn-icon delete" (click)="onDelete(item)" title="Delete">Delete</button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+  
+  <div *ngIf="isLoading" class="loading-container">
+    <mat-spinner></mat-spinner>
+    <p>Loading items...</p>
   </div>
+
+  
+  <table *ngIf="!isLoading">
+   
+    <thead>
+      <tr>
+        <th>Item Code</th>
+        <th>Item Name</th>
+        <th>Category</th>
+        <th>Quantity</th>
+        <th>Reorder Level</th>
+        <th>Status</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of filteredItems">
+        <td><strong>{{ item.itemCode }}</strong></td>
+        <td>{{ item.itemName }}</td>
+        <td>{{ item.category }}</td>
+        <td>{{ item.quantityAvailable }}</td>
+        <td>{{ item.reorderLevel }}</td>
+        <td>
+          <span class="badge" [ngClass]="{
+            'badge-active': item.itemStatus === 'Active',
+            'badge-warning': item.quantityAvailable <= item.reorderLevel && item.quantityAvailable > 0,
+            'badge-critical': item.quantityAvailable === 0
+          }">
+            {{ item.itemStatus }}
+          </span>
+        </td>
+        <td class="actions">
+          <button class="btn-icon edit" (click)="onEditClick(item)" title="Edit">Edit</button>
+          <button class="btn-icon delete" (click)="onDelete(item)" title="Delete">Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
 </div>
 <app-item-form 
   *ngIf="showForm"

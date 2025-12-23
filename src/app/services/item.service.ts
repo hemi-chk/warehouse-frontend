@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
+import { delay } from 'rxjs/operators';
 import { Item } from '../models/item';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ItemService {
-  
-  // Mock data - pretend this came from API
+
+  // Mock data (backend not ready)
   private mockItems: Item[] = [
     {
       id: 1,
@@ -76,41 +77,67 @@ export class ItemService {
     }
   ];
 
-  constructor() { }
+  
+  private readonly API_DELAY = 1200;
 
+  constructor() {}
+
+  
   getItems(): Observable<Item[]> {
-    return of(this.mockItems);
+    return of([...this.mockItems]).pipe(
+      delay(this.API_DELAY)
+    );
   }
 
+  
   getItemById(id: number): Observable<Item | undefined> {
-    return of(this.mockItems.find(item => item.id === id));
+    return of(this.mockItems.find(item => item.id === id)).pipe(
+      delay(this.API_DELAY)
+    );
   }
 
- createItem(item: Item): Observable<Item> {
-    const newItem = { 
-      ...item, 
-      id: this.mockItems.length + 1,
+  
+  createItem(item: Item): Observable<Item> {
+    const newItem: Item = {
+      ...item,
+      id: Date.now(), // ✔️ safe unique ID
       insertDate: new Date(),
       lastUpdated: new Date()
     };
+
     this.mockItems.push(newItem);
-    return of(newItem);
+
+    return of(newItem).pipe(
+      delay(this.API_DELAY)
+    );
   }
 
+  
   updateItem(id: number, item: Item): Observable<Item> {
     const index = this.mockItems.findIndex(i => i.id === id);
-    if (index !== -1) {
-      this.mockItems[index] = { ...item, id, lastUpdated: new Date() };
+
+    if (index === -1) {
+      throw new Error('Item not found');
     }
-    return of(this.mockItems[index]);
+
+    this.mockItems[index] = {
+      ...item,
+      id,
+      lastUpdated: new Date()
+    };
+
+    return of(this.mockItems[index]).pipe(
+      delay(this.API_DELAY)
+    );
   }
 
-  deleteItem(id: number): Observable<boolean> {
-    const index = this.mockItems.findIndex(i => i.id === id);
-    if (index !== -1) {
-      this.mockItems.splice(index, 1);
-      return of(true);
-    }
-    return of(false);
+  
+  deleteItem(id: number): Observable<void> {
+    this.mockItems = this.mockItems.filter(item => item.id !== id);
+
+    return of(void 0).pipe(
+      delay(this.API_DELAY)
+    );
   }
 }
+

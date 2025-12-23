@@ -176,3 +176,27 @@ td {
 .btn-icon:hover {
   transform: scale(1.2);
 }
+
+/*Snack bar styles start here*/
+.success-snackbar {
+  background-color: #4caf50 !important;
+  color: white !important;
+}
+
+.success-snackbar .mat-simple-snack-bar-content {
+  color: white !important;
+}
+
+.warning-snackbar {
+  background-color: #ff9800 !important;
+  color: white !important;
+}
+
+.warning-snackbar .mat-simple-snack-bar-content {
+  color: white !important;
+}
+
+.error-snackbar {
+  background-color: #f44336 !important;
+  color: white !important;
+}
